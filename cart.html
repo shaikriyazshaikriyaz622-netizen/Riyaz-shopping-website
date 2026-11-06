@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Shopping Bag | Shaik Riyaz Shopping</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="shopping.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-blue-600 selection:text-white">
+
+  <div class="bg-blob bg-blue-600/20 w-[500px] h-[500px] top-10 -left-40"></div>
+  <div id="srToastContainer" class="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-sm pointer-events-auto"></div>
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 w-full glass-nav transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-amber-500 flex items-center justify-center text-white font-black text-xl">
+          SR
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-2">
+            SHAIK RIYAZ <span class="text-blue-400 text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 font-bold">BAG</span>
+          </span>
+          <span class="text-[9px] text-amber-400 uppercase tracking-widest font-semibold">Review & Checkout</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-4 text-xs font-semibold text-slate-300">
+        <a href="products.html" class="hover:text-blue-400 flex items-center gap-1.5">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Continue Shopping
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+      <h1 class="text-2xl sm:text-3xl font-black text-white">Your Shopping Bag</h1>
+      <p class="text-xs text-slate-400 mt-1">Review your selected items before proceeding to secure payment.</p>
+    </div>
+
+    <!-- Free Shipping Progress -->
+    <div class="glass-card p-4 rounded-2xl border border-slate-800 mb-8 max-w-3xl">
+      <div class="flex items-center justify-between text-xs mb-2">
+        <span id="freeShippingTextCart" class="text-slate-300">Free Express Delivery on orders over ₹999</span>
+        <span class="text-emerald-400 font-bold flex items-center gap-1"><i data-lucide="zap" class="w-3.5 h-3.5"></i> Express Air</span>
+      </div>
+      <div class="w-full h-2.5 rounded-full bg-slate-800 overflow-hidden">
+        <div id="freeShippingProgressBarCart" class="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 rounded-full transition-all duration-300" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Cart Table / Items Area -->
+      <div class="lg:col-span-8 space-y-4">
+        <div id="cartItemsContainer" class="space-y-3">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <div id="cartEmptyState" class="hidden py-16 text-center glass-card rounded-3xl border border-slate-800">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-500">
+            <i data-lucide="shopping-bag" class="w-10 h-10"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-1">Your Shopping Bag is Empty</h3>
+          <p class="text-xs text-slate-400 max-w-sm mx-auto mb-6">Explore the Shaik Riyaz collections for luxury couture, audio gadgets, Swiss timepieces, and fragrances.</p>
+          <a href="products.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-500/25">
+            Explore All Products <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <div id="cartActionRow" class="flex items-center justify-between pt-4">
+          <button onclick="clearCart()" class="text-xs text-slate-400 hover:text-red-400 flex items-center gap-1.5 transition-colors">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Clear Shopping Bag
+          </button>
+          <a href="products.html" class="text-xs text-blue-400 hover:underline font-semibold flex items-center gap-1">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add More Items
+          </a>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="lg:col-span-4 space-y-6">
+        <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-5 sticky top-28">
+          <h3 class="text-base font-extrabold text-white pb-3 border-b border-slate-800">Order Summary</h3>
+
+          <!-- Coupon Input -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Apply Promo Code</label>
+            <div id="cartPageCouponNotice"></div>
+            <div class="flex items-center gap-2">
+              <input type="text" id="cartPageCouponInput" placeholder="Try RIYAZ25 or WELCOME10" class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white uppercase focus:outline-none focus:border-blue-500">
+              <button onclick="handleApplyCartCoupon()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all">
+                Apply
+              </button>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1">Special codes: <strong class="text-amber-400">RIYAZ25</strong> (25% Off) or <strong class="text-blue-400">WELCOME10</strong></p>
+          </div>
+
+          <!-- Price Calculations -->
+          <div class="space-y-2.5 text-xs text-slate-300 pt-3 border-t border-slate-800">
+            <div class="flex justify-between">
+              <span class="text-slate-400">Bag Subtotal:</span>
+              <span id="pageSubtotal" class="font-bold text-white">₹0</span>
+            </div>
+            <div id="pageDiscountRow" class="flex justify-between text-emerald-400 hidden">
+              <span>Promo Discount:</span>
+              <span id="pageDiscount" class="font-bold">-₹0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Express Delivery:</span>
+              <span id="pageShipping" class="font-bold">₹0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Estimated Taxes (5% GST):</span>
+              <span id="pageTax" class="font-bold">₹0</span>
+            </div>
+            <div class="flex justify-between text-base font-black text-white pt-3 border-t border-slate-800">
+              <span>Grand Total:</span>
+              <span id="pageGrandTotal" class="text-blue-400 font-black">₹0</span>
+            </div>
+          </div>
+
+          <!-- Checkout CTA -->
+          <a href="checkout.html" id="proceedCheckoutBtn" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-blue-500/25 active:scale-95 transition-all text-center">
+            Proceed to Secure Checkout <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </a>
+
+          <!-- Trust assurances -->
+          <div class="pt-4 border-t border-slate-800 space-y-2 text-[11px] text-slate-400">
+            <div class="flex items-center gap-2">
+              <i data-lucide="lock" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span>256-Bit Bank Grade SSL Encrypted Checkout</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Direct Shaik Riyaz 100% Authenticity Guarantee</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="shopping.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderFullCartPage();
+    });
+
+    function renderFullCartPage() {
+      const container = document.getElementById("cartItemsContainer");
+      const emptyState = document.getElementById("cartEmptyState");
+      const actionRow = document.getElementById("cartActionRow");
+      const checkoutBtn = document.getElementById("proceedCheckoutBtn");
+
+      if (cart.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        actionRow.classList.add("hidden");
+        checkoutBtn.classList.add("opacity-50", "pointer-events-none");
+      } else {
+        emptyState.classList.add("hidden");
+        actionRow.classList.remove("hidden");
+        checkoutBtn.classList.remove("opacity-50", "pointer-events-none");
+
+        container.innerHTML = cart.map((item, idx) => `
+          <div class="glass-card p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center gap-4">
+            <img src="${item.image}" alt="${item.name}" class="w-20 h-20 rounded-xl object-cover flex-shrink-0">
+            <div class="flex-1 min-w-0 space-y-1">
+              <span class="text-[10px] text-blue-400 font-bold uppercase">${item.brand}</span>
+              <h4 class="text-sm font-extrabold text-white truncate">${item.name}</h4>
+              <div class="flex flex-wrap gap-2 text-[11px] text-slate-400">
+                ${item.color ? `<span>Color: <strong class="text-slate-300">${item.color}</strong></span>` : ''}
+                ${item.size ? `<span>Size: <strong class="text-slate-300">${item.size}</strong></span>` : ''}
+                ${item.engraving ? `<span class="text-amber-400">Custom Engraved: "<strong>${item.engraving}</strong>"</span>` : ''}
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="flex items-center border border-slate-700 rounded-xl bg-slate-900 overflow-hidden">
+                <button onclick="updateCartQty(${idx}, -1); renderFullCartPage();" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white">-</button>
+                <span class="w-8 text-center text-xs font-bold text-white">${item.quantity}</span>
+                <button onclick="updateCartQty(${idx}, 1); renderFullCartPage();" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white">+</button>
+              </div>
+              <span class="w-24 text-right text-sm font-black text-white">${formatCurrency(item.priceINR * item.quantity)}</span>
+              <button onclick="removeFromCart(${idx}); renderFullCartPage();" class="p-2 text-slate-500 hover:text-red-400 transition-colors">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Calculations
+      const calc = getCartCalculations();
+      document.getElementById("pageSubtotal").textContent = formatCurrency(calc.subtotal);
+      document.getElementById("pageGrandTotal").textContent = formatCurrency(calc.grandTotal);
+      document.getElementById("pageTax").textContent = formatCurrency(calc.tax);
+      document.getElementById("pageShipping").textContent = calc.shipping === 0 ? "FREE" : formatCurrency(calc.shipping);
+
+      const discRow = document.getElementById("pageDiscountRow");
+      if (calc.discount > 0) {
+        discRow.classList.remove("hidden");
+        document.getElementById("pageDiscount").textContent = `-${formatCurrency(calc.discount)}`;
+      } else {
+        discRow.classList.add("hidden");
+      }
+
+      // Progress bar
+      const threshold = 999;
+      const pct = Math.min(100, Math.round((calc.subtotal / threshold) * 100));
+      document.getElementById("freeShippingProgressBarCart").style.width = `${pct}%`;
+      const textEl = document.getElementById("freeShippingTextCart");
+      if (pct >= 100) {
+        textEl.innerHTML = `<span class="text-emerald-400 font-bold">🎉 Congratulations! Free Express Shipping unlocked!</span>`;
+      } else {
+        textEl.innerHTML = `Add <strong class="text-white">${formatCurrency(threshold - calc.subtotal)}</strong> more for FREE Express Shipping!`;
+      }
+
+      // Coupon Notice
+      const couponNotice = document.getElementById("cartPageCouponNotice");
+      if (appliedCoupon) {
+        couponNotice.innerHTML = `
+          <div class="flex items-center justify-between p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs mb-2">
+            <span>Code <strong>${appliedCoupon.code}</strong> applied (${appliedCoupon.label})</span>
+            <button onclick="removeCoupon(); renderFullCartPage();" class="text-red-400 underline text-[10px]">Remove</button>
+          </div>
+        `;
+      } else {
+        couponNotice.innerHTML = "";
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function handleApplyCartCoupon() {
+      const code = document.getElementById("cartPageCouponInput").value;
+      if (applyCoupon(code)) {
+        renderFullCartPage();
+      }
+    }
+  </script>
+</body>
+</html>

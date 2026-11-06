@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shaik Riyaz Shopping | Premium Lifestyle, Fashion, Gadgets & Horology</title>
+  <meta name="description" content="Shaik Riyaz Shopping — Discover luxury tailored couture, flagship electronics, Swiss horology, bespoke fragrances, and personalized designer items curated by Shaik Riyaz.">
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="shopping.css">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-blue-600 selection:text-white">
+
+  <!-- Glowing Background Blobs -->
+  <div class="bg-blob bg-blue-600/25 w-[500px] h-[500px] top-10 -left-40"></div>
+  <div class="bg-blob bg-amber-500/15 w-[600px] h-[600px] top-[800px] -right-40"></div>
+  <div class="bg-blob bg-emerald-500/15 w-[450px] h-[450px] top-[1800px] left-10"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="srToastContainer" class="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-sm pointer-events-auto"></div>
+
+  <!-- ==========================================
+       TOP ANNOUNCEMENT BAR
+       ========================================== -->
+  <div class="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-slate-300 text-[11px] border-b border-slate-800 py-2 px-4 relative z-50">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold border border-blue-500/30">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></span> SPECIAL LAUNCH
+        </span>
+        <span class="hidden sm:inline">Use promo code <strong class="text-amber-400 font-bold underline cursor-pointer" onclick="navigator.clipboard.writeText('RIYAZ25'); showToast('Copied code RIYAZ25!');">RIYAZ25</strong> for 25% Off orders over ₹1,500!</span>
+        <span class="text-slate-400">• Free Express Shipping over ₹999</span>
+      </div>
+
+      <div class="flex items-center gap-4 text-xs">
+        <!-- Live Audio Sound FX Toggle -->
+        <button id="audioToggleBtn" class="text-slate-400 hover:text-white transition-colors" title="Toggle Sound FX">
+          <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+        </button>
+
+        <!-- Currency Selector -->
+        <div class="flex items-center gap-1">
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-blue-400"></i>
+          <select id="currencySelector" class="bg-transparent text-slate-200 text-xs font-semibold focus:outline-none cursor-pointer">
+            <option value="INR" class="bg-slate-900 text-white">INR (₹)</option>
+            <option value="USD" class="bg-slate-900 text-white">USD ($)</option>
+            <option value="AED" class="bg-slate-900 text-white">AED (د.إ)</option>
+            <option value="EUR" class="bg-slate-900 text-white">EUR (€)</option>
+            <option value="GBP" class="bg-slate-900 text-white">GBP (£)</option>
+          </select>
+        </div>
+
+        <button onclick="document.getElementById('orderTrackInput').focus(); openOrderTrackModal();" class="text-slate-300 hover:text-blue-400 transition-colors flex items-center gap-1">
+          <i data-lucide="truck" class="w-3.5 h-3.5"></i> <span>Track Order</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MAIN NAVIGATION BAR
+       ========================================== -->
+  <header class="sticky top-0 z-40 w-full glass-nav transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group flex-shrink-0">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-amber-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
+          SR
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white flex items-center gap-2">
+            SHAIK RIYAZ <span class="text-blue-400 text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 tracking-widest font-bold">SHOPPING</span>
+          </span>
+          <span class="text-[10px] text-amber-400 font-semibold tracking-widest uppercase">Curated Luxury & Everyday Essentials</span>
+        </div>
+      </a>
+
+      <!-- Global Search with Autocomplete -->
+      <div class="relative flex-1 max-w-md hidden md:block">
+        <div class="relative">
+          <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+          <input type="text" placeholder="Search Shaik Riyaz blazers, watches, audio, perfumes..." class="global-search-input w-full pl-10 pr-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 shadow-inner">
+        </div>
+        <div id="searchDropdown" class="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden z-50 hidden"></div>
+      </div>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-300">
+        <a href="index.html" class="text-blue-400 font-bold flex items-center gap-1"><i data-lucide="home" class="w-3.5 h-3.5"></i> Home</a>
+        <a href="products.html" class="hover:text-blue-400 transition-colors">Catalog</a>
+        <a href="deals.html" class="hover:text-amber-400 transition-colors flex items-center gap-1">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i> Deals
+        </a>
+        <a href="about.html" class="hover:text-blue-400 transition-colors">About Riyaz</a>
+        <a href="contact.html" class="hover:text-blue-400 transition-colors">Help & Stores</a>
+      </nav>
+
+      <!-- Right Action Icons: Wishlist, Cart & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <!-- Download Zip Package Button -->
+        <a href="../Shaik_Riyaz_Shopping_Website.zip" download class="hidden md:flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-blue-400 border border-slate-700/80 transition-all" title="Download Complete Shopping Website ZIP">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Download ZIP</span>
+        </a>
+
+        <!-- Wishlist Button -->
+        <a href="products.html?view=wishlist" class="relative p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-rose-400 transition-colors" title="Wishlist">
+          <i data-lucide="heart" class="w-5 h-5"></i>
+          <span class="wishlist-count-badge absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-black flex items-center justify-center hidden">0</span>
+        </a>
+
+        <!-- Cart Button -->
+        <button onclick="openCartDrawer()" class="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25 active:scale-95 transition-all">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Bag</span>
+          <span class="cart-count-badge w-5 h-5 rounded-full bg-white text-blue-900 text-[11px] font-black flex items-center justify-center">0</span>
+        </button>
+
+        <!-- Mobile Menu Hamburger -->
+        <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Sub-Menu -->
+    <div id="mobileMenu" class="lg:hidden hidden bg-slate-900/95 border-b border-slate-800 px-4 py-4 space-y-3">
+      <div class="relative w-full mb-3">
+        <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+        <input type="text" placeholder="Search products..." class="global-search-input w-full pl-10 pr-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white">
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
+        <a href="index.html" class="p-2 rounded-lg bg-blue-600/20 text-blue-400">Home</a>
+        <a href="products.html" class="p-2 rounded-lg bg-slate-800 text-slate-200">Shop Catalog</a>
+        <a href="deals.html" class="p-2 rounded-lg bg-slate-800 text-amber-400">Flash Deals 🔥</a>
+        <a href="about.html" class="p-2 rounded-lg bg-slate-800 text-slate-200">About Shaik Riyaz</a>
+        <a href="contact.html" class="p-2 rounded-lg bg-slate-800 text-slate-200">Customer Support</a>
+        <button onclick="openOrderTrackModal()" class="p-2 rounded-lg bg-slate-800 text-left text-blue-400 flex items-center gap-1">
+          <i data-lucide="truck" class="w-3.5 h-3.5"></i> Track Order
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       HERO BANNER & SHOWCASE
+       ========================================== -->
+  <section class="relative pt-8 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="relative rounded-3xl overflow-hidden border border-slate-800/80 bg-gradient-to-br from-slate-900 via-slate-900/90 to-blue-950/80 p-8 sm:p-12 lg:p-16 shadow-2xl">
+      <!-- Decorative Lighting Glow -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full filter blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-0 left-10 w-80 h-80 bg-amber-500/15 rounded-full filter blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <!-- Left Hero Copy -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/80 text-amber-400 text-xs font-bold tracking-wide shadow-md">
+            <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+            <span>Shaik Riyaz Signature Collection • Direct from Founder</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+            Where Modern Elegance Meets <span class="bg-gradient-to-r from-blue-400 via-sky-300 to-amber-300 bg-clip-text text-transparent">Everyday Value.</span>
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed">
+            Welcome to the official online emporium curated by <strong>Shaik Riyaz</strong>. Explore bespoke couture blazers, precision Swiss-grade horology chronographs, studio-grade Hi-Res audio, artisanal agarwood oud, and custom laser-engraved keepsakes.
+          </p>
+
+          <!-- Manager Trust Pill in Hero -->
+          <div class="inline-flex items-center gap-3 p-2 pr-4 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-lg">
+            <img src="shaik_riyaz_shopping_manager.jpg" alt="Shaik Riyaz Shopping Manager" class="w-10 h-10 rounded-xl object-cover object-top border border-amber-500/50">
+            <div>
+              <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider block">In-Store Shopping Manager</span>
+              <span class="text-xs font-bold text-white">Curated & Personally Managed by Shaik Riyaz</span>
+            </div>
+          </div>
+
+          <!-- Hero Action CTAs -->
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="products.html" class="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm shadow-xl shadow-blue-500/25 active:scale-95 transition-all flex items-center gap-2">
+              <i data-lucide="shopping-bag" class="w-4 h-4"></i> Explore Entire Catalog
+            </a>
+            <a href="deals.html" class="px-6 py-3.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700 text-slate-200 font-bold text-sm transition-all flex items-center gap-2">
+              <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i> Flash Deals (Up to 60% Off)
+            </a>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 text-slate-300 text-xs">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400 flex-shrink-0"></i>
+              <div>
+                <p class="font-bold text-white">100% Authentic</p>
+                <p class="text-[10px] text-slate-400">Shaik Riyaz Seal</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="rotate-ccw" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+              <div>
+                <p class="font-bold text-white">7-Day Returns</p>
+                <p class="text-[10px] text-slate-400">No questions asked</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="zap" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
+              <div>
+                <p class="font-bold text-white">Express Delivery</p>
+                <p class="text-[10px] text-slate-400">Free over ₹999</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Spotlight Product Cards (Stacked 3D Preview) -->
+        <div class="lg:col-span-5 relative flex justify-center">
+          <div class="relative w-full max-w-sm">
+            <div class="glass-card rounded-3xl p-5 border border-slate-700/80 shadow-2xl relative overflow-hidden group">
+              <div class="absolute top-3 left-3 bg-gradient-to-r from-amber-500 to-amber-700 text-slate-950 font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider z-10 shadow">
+                Shaik Riyaz Masterpiece
+              </div>
+              <div class="w-full h-64 rounded-2xl overflow-hidden bg-slate-900 mb-4">
+                <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80" alt="Shaik Riyaz Chronograph" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              </div>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center text-xs text-blue-400 font-bold uppercase">
+                  <span>Shaik Riyaz Chrono Timepieces</span>
+                  <span class="text-amber-400 flex items-center gap-1">★ 5.0 (142)</span>
+                </div>
+                <h3 class="text-base font-extrabold text-white">Sovereign Automatic 24-Jewel Chronograph</h3>
+                <div class="flex items-baseline justify-between pt-1">
+                  <div>
+                    <span class="text-xl font-black text-white">₹24,999</span>
+                    <span class="text-xs text-slate-500 line-through ml-2">₹39,999</span>
+                  </div>
+                  <button onclick="addToCart('sr-301', 1)" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-500/20 transition-all flex items-center gap-1.5">
+                    <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i> Add to Bag
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       BRAND UNIVERSE: "NAMES WITH SHAIK RIYAZ"
+       ========================================== -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="text-xs font-extrabold text-blue-400 tracking-widest uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Brand Universe</span>
+      <h2 class="text-2xl sm:text-4xl font-black text-white mt-2">The Shaik Riyaz Brand Collection</h2>
+      <p class="text-xs sm:text-sm text-slate-400 mt-2">Explore distinct luxury & lifestyle sub-brands, all designed and curated under the hallmark of Shaik Riyaz.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <!-- 1. Signature Luxe -->
+      <a href="products.html?brand=signature" class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-blue-500/50 hover:-translate-y-1 transition-all text-center group">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i data-lucide="shirt" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-xs font-bold text-white group-hover:text-blue-400">Shaik Riyaz Luxe</h4>
+        <p class="text-[10px] text-slate-400 mt-0.5">Couture & Tailoring</p>
+      </a>
+
+      <!-- 2. SmartTech -->
+      <a href="products.html?brand=tech" class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-blue-500/50 hover:-translate-y-1 transition-all text-center group">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i data-lucide="headphones" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-xs font-bold text-white group-hover:text-blue-400">Shaik Riyaz Tech</h4>
+        <p class="text-[10px] text-slate-400 mt-0.5">ANC Audio & Gadgets</p>
+      </a>
+
+      <!-- 3. Timepieces -->
+      <a href="products.html?brand=watches" class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-blue-500/50 hover:-translate-y-1 transition-all text-center group">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i data-lucide="watch" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-xs font-bold text-white group-hover:text-amber-400">Shaik Riyaz Chrono</h4>
+        <p class="text-[10px] text-slate-400 mt-0.5">Swiss Horology</p>
+      </a>
+
+      <!-- 4. Urban Kicks -->
+      <a href="products.html?brand=footwear" class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-blue-500/50 hover:-translate-y-1 transition-all text-center group">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i data-lucide="footprints" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-xs font-bold text-white group-hover:text-emerald-400">Shaik Riyaz Kicks</h4>
+        <p class="text-[10px] text-slate-400 mt-0.5">Sneakers & Derbies</p>
+      </a>
+
+      <!-- 5. Royal Oud -->
+      <a href="products.html?brand=fragrance" class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-blue-500/50 hover:-translate-y-1 transition-all text-center group">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i data-lucide="sparkles" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-xs font-bold text-white group-hover:text-purple-400">Shaik Riyaz Oud</h4>
+        <p class="text-[10px] text-slate-400 mt-0.5">Royal Extrait Parfums</p>
+      </a>
+
+      <!-- 6. Heritage Living -->
+      <a href="products.html?brand=home" class="glass-card p-4 rounded-2xl border border-slate-800 hover:border-blue-500/50 hover:-translate-y-1 transition-all text-center group">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i data-lucide="home" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-xs font-bold text-white group-hover:text-rose-400">Shaik Riyaz Living</h4>
+        <p class="text-[10px] text-slate-400 mt-0.5">Smart Home & Decor</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FLASH DEALS WITH COUNTDOWN TIMER
+       ========================================== -->
+  <section class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="rounded-3xl bg-gradient-to-r from-red-950/70 via-slate-900 to-amber-950/70 border border-red-500/30 p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-red-400 font-extrabold text-xs tracking-wider uppercase mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+            <span>Shaik Riyaz Flash Super Deal</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">Daily Lightning Steals</h3>
+          <p class="text-xs text-slate-400">Limited quantities remaining at up to 60% below MRP.</p>
+        </div>
+
+        <!-- Live Countdown Timer -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-300 mr-1">Sale Ends In:</span>
+          <div class="flex items-center gap-1.5 font-mono text-center">
+            <div class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl">
+              <span id="saleHours" class="text-base font-extrabold text-amber-400">08</span>
+              <span class="block text-[8px] text-slate-400 uppercase">Hours</span>
+            </div>
+            <span class="text-amber-400 font-bold">:</span>
+            <div class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl">
+              <span id="saleMins" class="text-base font-extrabold text-amber-400">42</span>
+              <span class="block text-[8px] text-slate-400 uppercase">Mins</span>
+            </div>
+            <span class="text-amber-400 font-bold">:</span>
+            <div class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl">
+              <span id="saleSecs" class="text-base font-extrabold text-amber-400">19</span>
+              <span class="block text-[8px] text-slate-400 uppercase">Secs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flash Deals 3-Product Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="flashDealsContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CURATED CATALOG & PRODUCT TABS
+       ========================================== -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div>
+        <span class="text-xs font-extrabold text-blue-400 tracking-widest uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Handpicked Collection</span>
+        <h2 class="text-2xl sm:text-4xl font-black text-white mt-2">Explore All Riyaz Curations</h2>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoryTabs">
+        <button onclick="filterHomePageProducts('all', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-500/20 flex-shrink-0">All Items</button>
+        <button onclick="filterHomePageProducts('signature', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white flex-shrink-0">Signature Couture</button>
+        <button onclick="filterHomePageProducts('tech', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white flex-shrink-0">SmartTech</button>
+        <button onclick="filterHomePageProducts('watches', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white flex-shrink-0">Chrono Watches</button>
+        <button onclick="filterHomePageProducts('footwear', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white flex-shrink-0">Footwear</button>
+        <button onclick="filterHomePageProducts('fragrance', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white flex-shrink-0">Royal Oud</button>
+        <button onclick="filterHomePageProducts('home', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white flex-shrink-0">Heritage Living</button>
+        <button onclick="filterHomePageProducts('custom', this)" class="cat-tab px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-amber-400 hover:text-amber-300 flex-shrink-0">Personalized Studio ✨</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="homeProductGrid">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- View All Catalog Button -->
+    <div class="text-center mt-12">
+      <a href="products.html" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 hover:border-blue-500/50 shadow-xl transition-all">
+        <span>Browse Full Catalog (${SR_PRODUCTS.length} Products)</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PERSONALIZED STUDIO BANNER ("NAMES WITH SHAIK RIYAZ")
+       ========================================== -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="rounded-3xl bg-gradient-to-r from-amber-950/60 via-slate-900 to-blue-950/60 border border-amber-500/30 p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-4">
+          <span class="text-xs font-extrabold text-amber-400 tracking-widest uppercase bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">Shaik Riyaz Bespoke Studio</span>
+          <h2 class="text-2xl sm:text-4xl font-black text-white">Your Name Crafted with Shaik Riyaz</h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Every great piece tells a story. Have your custom name or initials precision-engraved in 24K gold on our executive rollerball pens, hot-stamped on full-grain RFID leather wallets, or embroidered onto your custom tailored blazer.
+          </p>
+          <div class="flex items-center gap-4 pt-2">
+            <button onclick="filterHomePageProducts('custom', document.querySelector('.cat-tab:last-child'));" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Customize Now
+            </button>
+            <span class="text-xs text-amber-300 font-semibold">100% Free Custom Laser Engraving</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+          <div class="glass-card p-4 rounded-2xl border border-slate-700/80 text-center">
+            <img src="https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80" alt="Engraved Pen" class="w-full h-32 object-cover rounded-xl mb-3">
+            <h4 class="text-xs font-bold text-white">24K Gold Bar Pen</h4>
+            <span class="text-[11px] text-amber-400 font-semibold">Custom Engraved</span>
+          </div>
+          <div class="glass-card p-4 rounded-2xl border border-slate-700/80 text-center">
+            <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=400&q=80" alt="Personalized Wallet" class="w-full h-32 object-cover rounded-xl mb-3">
+            <h4 class="text-xs font-bold text-white">RFID Leather Wallet</h4>
+            <span class="text-[11px] text-amber-400 font-semibold">Gold Foil Monogram</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOUNDER & SHOPPING MANAGER SPOTLIGHT: SHAIK RIYAZ
+       ========================================== -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="glass-card rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-2xl relative overflow-hidden bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-blue-950/70">
+      
+      <!-- Ambient Glow Blobs -->
+      <div class="absolute -right-20 -top-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+        <!-- Photo of Shaik Riyaz (Shopping Manager) -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-sm sm:max-w-md rounded-3xl overflow-hidden border-2 border-amber-500/50 shadow-2xl group bg-slate-900">
+            <!-- Floating Badge -->
+            <div class="absolute top-4 left-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-500/50 text-amber-400 text-xs font-black uppercase tracking-wider shadow-lg">
+              <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+              <span>Shaik Riyaz • Shopping Manager</span>
+            </div>
+            
+            <img src="shaik_riyaz_shopping_manager.jpg" alt="Shaik Riyaz - Shopping Manager & Founder" class="w-full h-[460px] sm:h-[520px] object-cover object-top group-hover:scale-105 transition-transform duration-500">
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent flex flex-col justify-end p-6">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+                <i data-lucide="badge-check" class="w-4 h-4 text-emerald-400"></i> Verified In-Store Executive
+              </span>
+              <h3 class="text-2xl font-black text-white mt-1">Shaik Riyaz</h3>
+              <p class="text-xs text-slate-300">Founder & Chief Shopping Manager • Shaik Riyaz Retail Hub</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder Story & Commitment -->
+        <div class="lg:col-span-7 space-y-5">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
+            <i data-lucide="store" class="w-4 h-4"></i> Directly Managed by Shaik Riyaz
+          </div>
+
+          <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+            "Welcome to My Store — Where Every Product is Personally Inspected & Certified."
+          </h2>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            "As the <strong>Shopping Manager and Founder</strong>, my daily mission is to guarantee that every patron receives white-glove service and genuine product excellence. Whether you are ordering a bespoke Italian tailored blazer, a Swiss-calibre automatic chronograph, or a personalized laser-engraved keepsake, it carries my personal stamp of quality.
+          </p>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            We operate directly with master craftsmen, bypassing distributor markups and passing 40% to 60% savings directly to you. If any purchase ever falls short of perfection, my team and I offer an unconditional 7-day hassle-free replacement and instant refund."
+          </p>
+
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800 text-xs">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+              <span class="text-lg font-black text-white">85K+</span>
+              <p class="text-[10px] text-slate-400 uppercase mt-0.5">Satisfied Patrons</p>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+              <span class="text-lg font-black text-amber-400">100%</span>
+              <p class="text-[10px] text-slate-400 uppercase mt-0.5">Authenticity Seal</p>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+              <span class="text-lg font-black text-emerald-400">24/7</span>
+              <p class="text-[10px] text-slate-400 uppercase mt-0.5">Manager Concierge</p>
+            </div>
+          </div>
+
+          <div class="pt-2 flex flex-wrap items-center gap-4">
+            <a href="products.html" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25 active:scale-95 transition-all flex items-center gap-2">
+              <i data-lucide="shopping-bag" class="w-4 h-4"></i> Shop Shaik Riyaz's Curations
+            </a>
+            <a href="contact.html" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition-all flex items-center gap-2">
+              <i data-lucide="message-square" class="w-4 h-4 text-amber-400"></i> Contact Manager
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       VERIFIED CUSTOMER REVIEWS
+       ========================================== -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center max-w-xl mx-auto mb-10">
+      <span class="text-xs font-extrabold text-blue-400 tracking-widest uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">Customer Satisfaction</span>
+      <h2 class="text-2xl sm:text-3xl font-black text-white mt-2">Loved by Discerning Shoppers</h2>
+      <p class="text-xs text-slate-400 mt-1">Real feedback from verified purchasers across India and worldwide.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Review 1 -->
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center text-amber-400 text-xs">
+            ★★★★★
+          </div>
+          <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">Verified Buyer</span>
+        </div>
+        <p class="text-xs text-slate-300 italic leading-relaxed">
+          "The Shaik Riyaz Sovereign Automatic Watch is spectacular. The sunburst dial and exhibition case back rival luxury Swiss pieces costing 5x as much. Arrived in a wooden collector's box within 48 hours!"
+        </p>
+        <div class="pt-2 border-t border-slate-800 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">RK</div>
+          <div>
+            <h5 class="text-xs font-bold text-white">Rohit Kapoor</h5>
+            <span class="text-[10px] text-slate-400">Mumbai • Sovereign Watch</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center text-amber-400 text-xs">
+            ★★★★★
+          </div>
+          <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">Verified Buyer</span>
+        </div>
+        <p class="text-xs text-slate-300 italic leading-relaxed">
+          "I ordered the Imperial Oud Royale perfume and the custom engraved 24K gold pen. The scent lasts all day with incredible compliments, and the engraving was flawless. Thank you Mr. Shaik Riyaz!"
+        </p>
+        <div class="pt-2 border-t border-slate-800 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">AA</div>
+          <div>
+            <h5 class="text-xs font-bold text-white">Arif Ansari</h5>
+            <span class="text-[10px] text-slate-400">Hyderabad • Imperial Oud & Pen</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review 3 -->
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center text-amber-400 text-xs">
+            ★★★★★
+          </div>
+          <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-bold">Verified Buyer</span>
+        </div>
+        <p class="text-xs text-slate-300 italic leading-relaxed">
+          "The ProBeats ANC headphones have replaced my Sony headphones. The noise cancellation on flights is unbelievable, and battery life is genuinely over 60 hours. Super fast delivery!"
+        </p>
+        <div class="pt-2 border-t border-slate-800 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs">SN</div>
+          <div>
+            <h5 class="text-xs font-bold text-white">Sneha Nair</h5>
+            <span class="text-[10px] text-slate-400">Bangalore • ProBeats ANC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       NEWSLETTER & PROMO CODE SIGNUP
+       ========================================== -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="rounded-3xl bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 border border-blue-500/30 p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-2xl relative overflow-hidden">
+      <div class="w-12 h-12 mx-auto mb-4 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
+        <i data-lucide="mail" class="w-6 h-6"></i>
+      </div>
+      <h3 class="text-2xl sm:text-3xl font-black text-white">Join the Shaik Riyaz VIP Club</h3>
+      <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto mt-2 mb-6">
+        Subscribe for private runway previews, secret flash codes, and receive an instant <strong>10% Off Voucher</strong> on your first order.
+      </p>
+
+      <form onsubmit="event.preventDefault(); showToast('Welcome to the VIP Club! Use code WELCOME10'); this.reset();" class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+        <input type="email" required placeholder="Enter your email address" class="w-full sm:w-auto flex-1 px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-400">
+        <button type="submit" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2">
+          <span>Claim VIP 10% Off</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="bg-slate-950 border-t border-slate-800/80 pt-16 pb-12 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+      <!-- Col 1: Brand Info -->
+      <div class="lg:col-span-2 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-amber-500 flex items-center justify-center text-white font-black text-lg">
+            SR
+          </div>
+          <div>
+            <h4 class="font-extrabold text-white text-base">SHAIK RIYAZ SHOPPING</h4>
+            <p class="text-[10px] text-blue-400 uppercase tracking-widest font-semibold">Shaik Riyaz Group of Enterprises</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+          Premium multi-category lifestyle, couture tailoring, precision horology, audiophile acoustics, and bespoke personal gifts. Founded and directed by Shaik Riyaz.
+        </p>
+        <div class="flex items-center gap-3 text-slate-400">
+          <a href="#" class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:text-white flex items-center justify-center"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+          <a href="#" class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:text-white flex items-center justify-center"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+          <a href="#" class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:text-white flex items-center justify-center"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+          <a href="#" class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:text-white flex items-center justify-center"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+        </div>
+      </div>
+
+      <!-- Col 2: Brand Lines -->
+      <div class="space-y-2.5">
+        <h5 class="text-white font-bold uppercase tracking-wider text-xs">Shaik Riyaz Brands</h5>
+        <ul class="space-y-1.5">
+          <li><a href="products.html?brand=signature" class="hover:text-blue-400 transition-colors">Shaik Riyaz Signature Luxe</a></li>
+          <li><a href="products.html?brand=tech" class="hover:text-blue-400 transition-colors">Shaik Riyaz SmartTech</a></li>
+          <li><a href="products.html?brand=watches" class="hover:text-blue-400 transition-colors">Shaik Riyaz Chrono Watches</a></li>
+          <li><a href="products.html?brand=footwear" class="hover:text-blue-400 transition-colors">Shaik Riyaz Urban Kicks</a></li>
+          <li><a href="products.html?brand=fragrance" class="hover:text-blue-400 transition-colors">Shaik Riyaz Royal Oud</a></li>
+          <li><a href="products.html?brand=home" class="hover:text-blue-400 transition-colors">Shaik Riyaz Heritage Living</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Customer Care -->
+      <div class="space-y-2.5">
+        <h5 class="text-white font-bold uppercase tracking-wider text-xs">Customer Service</h5>
+        <ul class="space-y-1.5">
+          <li><a href="contact.html" class="hover:text-blue-400 transition-colors">Help Center & FAQ</a></li>
+          <li><button onclick="openOrderTrackModal()" class="hover:text-blue-400 transition-colors">Track Your Order</button></li>
+          <li><a href="contact.html" class="hover:text-blue-400 transition-colors">Shipping & Returns Policy</a></li>
+          <li><a href="contact.html" class="hover:text-blue-400 transition-colors">Warranty & Authenticity</a></li>
+          <li><a href="about.html" class="hover:text-blue-400 transition-colors">Founder's Message</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Store & Helpdesk -->
+      <div class="space-y-2.5">
+        <h5 class="text-white font-bold uppercase tracking-wider text-xs">Direct Support</h5>
+        <p class="text-slate-300"><strong>Toll-Free Helpline:</strong><br>1800-RIYAZ-SHOP (1800-749-297)</p>
+        <p class="text-slate-300"><strong>Executive Email:</strong><br>concierge@shaikriyazshopping.com</p>
+        <p class="text-slate-400 text-[11px]">Flagship Galleria: Banjara Hills, Hyderabad, India</p>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+      <p>© 2026 Shaik Riyaz Shopping Co. (Shaik Riyaz Enterprises). All rights reserved.</p>
+      <div class="flex items-center gap-3 text-slate-400">
+        <span>Accepted Gateways:</span>
+        <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300 font-bold">UPI / GPay</span>
+        <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300 font-bold">RuPay</span>
+        <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300 font-bold">Visa / Master</span>
+        <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300 font-bold">Cash on Delivery</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       SLIDE-OVER SHOPPING CART DRAWER
+       ========================================== -->
+  <div id="cartOverlay" onclick="closeCartDrawer()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md glass-drawer z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
+    <!-- Drawer Header -->
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-blue-400"></i>
+        <h3 class="text-base font-extrabold text-white">Your Shopping Bag</h3>
+        <span class="cart-count-badge text-xs font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">0</span>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Free Shipping Progress Bar -->
+    <div class="px-5 py-3 bg-slate-900/80 border-b border-slate-800">
+      <p id="freeShippingText" class="text-[11px] text-slate-300 mb-1.5">Free Express Shipping on orders over ₹999</p>
+      <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+        <div id="freeShippingProgress" class="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full transition-all duration-300" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items Scrollable List -->
+    <div id="cartDrawerItems" class="flex-1 overflow-y-auto p-5 scrollbar-thin">
+      <!-- Injected via shopping.js -->
+    </div>
+
+    <!-- Drawer Footer Calculations & Checkout -->
+    <div class="p-5 border-t border-slate-800 bg-slate-900/90 space-y-3">
+      <!-- Coupon Box in Drawer -->
+      <div id="cartCouponAppliedBox"></div>
+      <div class="flex items-center gap-2">
+        <input type="text" id="drawerCouponInput" placeholder="Coupon Code (e.g. RIYAZ25)" class="flex-1 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white placeholder-slate-500 uppercase focus:outline-none focus:border-blue-500">
+        <button onclick="applyCoupon(document.getElementById('drawerCouponInput').value)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-400 text-xs font-bold border border-slate-700 transition-colors">
+          Apply
+        </button>
+      </div>
+
+      <div class="space-y-1.5 text-xs text-slate-300 pt-2 border-t border-slate-800">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Subtotal:</span>
+          <span id="cartDrawerSubtotal" class="font-bold text-white">₹0</span>
+        </div>
+        <div class="flex justify-between text-sm font-black text-white pt-1">
+          <span>Estimated Total:</span>
+          <span id="cartDrawerGrandTotal" class="text-blue-400 font-black">₹0</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 pt-2">
+        <a href="cart.html" class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold text-center border border-slate-700 transition-colors">
+          View Cart Page
+        </a>
+        <a href="checkout.html" class="py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold text-center shadow-lg shadow-blue-500/25 transition-all">
+          Checkout Now →
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       MODALS: QUICK VIEW & ORDER TRACKER & SUCCESS
+       ========================================== -->
+  <!-- 1. Quick View Modal -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative w-full max-w-4xl glass-drawer rounded-3xl border border-slate-700 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto">
+      <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-slate-800/80 text-slate-300 hover:text-white flex items-center justify-center">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="quickViewContent"></div>
+    </div>
+  </div>
+
+  <!-- 2. Order Tracking Modal -->
+  <div id="orderTrackModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative w-full max-w-xl glass-drawer rounded-3xl border border-slate-700 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto">
+      <button onclick="closeOrderTrackModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-slate-800/80 text-slate-300 hover:text-white flex items-center justify-center">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      
+      <div class="p-6 border-b border-slate-800">
+        <div class="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+          <i data-lucide="truck" class="w-4 h-4"></i> Live Consignment Tracking
+        </div>
+        <h3 class="text-xl font-black text-white">Track Your Shaik Riyaz Order</h3>
+        <p class="text-xs text-slate-400 mt-0.5">Enter your order ID (e.g. <strong>SR-88491</strong> or <strong>SR-55209</strong>) to inspect dispatch updates.</p>
+
+        <div class="mt-4 flex gap-2">
+          <input type="text" id="orderTrackInput" placeholder="Enter Order ID (e.g. SR-88491)" class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white uppercase focus:outline-none focus:border-blue-500">
+          <button onclick="trackOrder(document.getElementById('orderTrackInput').value)" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all">
+            Track Consignment
+          </button>
+        </div>
+      </div>
+
+      <div id="orderTrackResult">
+        <div class="p-8 text-center text-slate-400 text-xs">
+          Enter your order reference above to view real-time transit status.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Order Success / Printable Invoice Modal -->
+  <div id="orderSuccessModal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative w-full max-w-2xl bg-slate-900 rounded-3xl border border-slate-700 overflow-hidden shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div id="orderSuccessContent"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript Application Script -->
+  <script src="shopping.js"></script>
+  <script>
+    // Initialize Home Page Specific Sections
+    document.addEventListener("DOMContentLoaded", () => {
+      renderHomePageProducts();
+      renderFlashDeals();
+    });
+
+    function renderHomePageProducts(category = 'all') {
+      const grid = document.getElementById("homeProductGrid");
+      if (!grid) return;
+
+      let filtered = SR_PRODUCTS;
+      if (category !== 'all') {
+        if (category === 'signature') filtered = SR_PRODUCTS.filter(p => p.brandCode === 'signature');
+        else if (category === 'custom') filtered = SR_PRODUCTS.filter(p => p.category === 'custom');
+        else filtered = SR_PRODUCTS.filter(p => p.category === category || p.brandCode === category);
+      }
+
+      // Display up to 8 products on home page
+      const displayItems = filtered.slice(0, 8);
+      grid.innerHTML = displayItems.map(p => renderProductCard(p)).join("");
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function filterHomePageProducts(category, tabBtn) {
+      document.querySelectorAll(".cat-tab").forEach(btn => {
+        btn.classList.remove("bg-blue-600", "text-white", "shadow-md");
+        btn.classList.add("bg-slate-800", "text-slate-300");
+      });
+      tabBtn.classList.add("bg-blue-600", "text-white", "shadow-md");
+      tabBtn.classList.remove("bg-slate-800", "text-slate-300");
+      renderHomePageProducts(category);
+    }
+
+    function renderFlashDeals() {
+      const container = document.getElementById("flashDealsContainer");
+      if (!container) return;
+
+      // Select 3 top discounted items
+      const flashItems = [SR_PRODUCTS[4], SR_PRODUCTS[5], SR_PRODUCTS[8]]; // Headphones, Smartwatch, Sovereign Watch
+      container.innerHTML = flashItems.map(p => renderProductCard(p)).join("");
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function openOrderTrackModal() {
+      const modal = document.getElementById("orderTrackModal");
+      if (modal) {
+        modal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+        if (window.lucide) window.lucide.createIcons();
+      }
+    }
+  </script>
+</body>
+</html>

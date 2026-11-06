@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Deals & Coupon Vault | Shaik Riyaz Shopping</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="shopping.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-blue-600 selection:text-white">
+
+  <div class="bg-blob bg-red-600/20 w-[550px] h-[550px] top-10 -right-40"></div>
+  <div id="srToastContainer" class="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-sm pointer-events-auto"></div>
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 w-full glass-nav transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-amber-500 flex items-center justify-center text-white font-black text-xl">
+          SR
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-2">
+            SHAIK RIYAZ <span class="text-amber-400 text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 font-bold">DEALS</span>
+          </span>
+          <span class="text-[9px] text-red-400 uppercase tracking-widest font-semibold flex items-center gap-1">
+            <i data-lucide="flame" class="w-3 h-3"></i> Super Steals & Clearance
+          </span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-300">
+        <a href="index.html" class="hover:text-blue-400 transition-colors">Home</a>
+        <a href="products.html" class="hover:text-blue-400 transition-colors">Catalog</a>
+        <a href="deals.html" class="text-amber-400 font-bold flex items-center gap-1"><i data-lucide="zap" class="w-3.5 h-3.5"></i> Deals</a>
+        <a href="about.html" class="hover:text-blue-400 transition-colors">About Riyaz</a>
+        <a href="contact.html" class="hover:text-blue-400 transition-colors">Help</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openCartDrawer()" class="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Bag</span>
+          <span class="cart-count-badge w-5 h-5 rounded-full bg-white text-blue-900 text-[11px] font-black flex items-center justify-center">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+    <!-- HERO HEADER -->
+    <div class="rounded-3xl bg-gradient-to-r from-red-950 via-slate-900 to-amber-950 border border-red-500/30 p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-2xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold mb-3">
+        <span class="w-2 h-2 rounded-full bg-red-400 animate-ping"></span> Live Flash Event
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black text-white">Shaik Riyaz Mega Bargain Fest</h1>
+      <p class="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto mt-2">
+        Direct from founder inventory discounts. Genuine luxury pieces at historic prices. Quantities strictly limited.
+      </p>
+    </div>
+
+    <!-- COUPON CODE VAULT -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-black text-white flex items-center gap-2">
+        <i data-lucide="tag" class="w-5 h-5 text-amber-400"></i> Active Coupon Vault
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="glass-card p-4 rounded-2xl border border-amber-500/30 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-amber-400">RIYAZ25</span>
+            <button onclick="navigator.clipboard.writeText('RIYAZ25'); showToast('Copied RIYAZ25');" class="text-[10px] text-blue-400 font-bold hover:underline">Copy Code</button>
+          </div>
+          <p class="text-sm font-extrabold text-white">25% Flat Discount</p>
+          <p class="text-[11px] text-slate-400">On all orders above ₹1,500 across all Shaik Riyaz categories.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl border border-blue-500/30 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-blue-400">RIYAZ500</span>
+            <button onclick="navigator.clipboard.writeText('RIYAZ500'); showToast('Copied RIYAZ500');" class="text-[10px] text-blue-400 font-bold hover:underline">Copy Code</button>
+          </div>
+          <p class="text-sm font-extrabold text-white">Flat ₹500 Off</p>
+          <p class="text-[11px] text-slate-400">Valid on watches, blazers, and luxury briefcases above ₹2,500.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl border border-emerald-500/30 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-emerald-400">WELCOME10</span>
+            <button onclick="navigator.clipboard.writeText('WELCOME10'); showToast('Copied WELCOME10');" class="text-[10px] text-blue-400 font-bold hover:underline">Copy Code</button>
+          </div>
+          <p class="text-sm font-extrabold text-white">10% Welcome Gift</p>
+          <p class="text-[11px] text-slate-400">For all new patrons on their very first purchase. No minimum spend.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl border border-purple-500/30 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-purple-400">FREESHIP</span>
+            <button onclick="navigator.clipboard.writeText('FREESHIP'); showToast('Copied FREESHIP');" class="text-[10px] text-blue-400 font-bold hover:underline">Copy Code</button>
+          </div>
+          <p class="text-sm font-extrabold text-white">Free Air Express</p>
+          <p class="text-[11px] text-slate-400">100% waiver of express courier fees with guaranteed priority delivery.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FLASH DEALS GRID -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-black text-white flex items-center gap-2">
+        <i data-lucide="flame" class="w-5 h-5 text-red-400"></i> High-Discount Deals (40% - 60% Off)
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="dealsGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Slide-Over Shopping Cart Drawer -->
+  <div id="cartOverlay" onclick="closeCartDrawer()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md glass-drawer z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-blue-400"></i>
+        <h3 class="text-base font-extrabold text-white">Your Shopping Bag</h3>
+        <span class="cart-count-badge text-xs font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">0</span>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+    <div class="px-5 py-3 bg-slate-900/80 border-b border-slate-800">
+      <p id="freeShippingText" class="text-[11px] text-slate-300 mb-1.5">Free Express Shipping on orders over ₹999</p>
+      <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+        <div id="freeShippingProgress" class="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full transition-all duration-300" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div id="cartDrawerItems" class="flex-1 overflow-y-auto p-5 scrollbar-thin"></div>
+    <div class="p-5 border-t border-slate-800 bg-slate-900/90 space-y-3">
+      <div id="cartCouponAppliedBox"></div>
+      <div class="flex items-center gap-2">
+        <input type="text" id="drawerCouponInput" placeholder="Coupon Code" class="flex-1 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white uppercase focus:outline-none focus:border-blue-500">
+        <button onclick="applyCoupon(document.getElementById('drawerCouponInput').value)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-400 text-xs font-bold border border-slate-700">Apply</button>
+      </div>
+      <div class="space-y-1.5 text-xs text-slate-300 pt-2 border-t border-slate-800">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Subtotal:</span>
+          <span id="cartDrawerSubtotal" class="font-bold text-white">₹0</span>
+        </div>
+        <div class="flex justify-between text-sm font-black text-white pt-1">
+          <span>Estimated Total:</span>
+          <span id="cartDrawerGrandTotal" class="text-blue-400 font-black">₹0</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-2">
+        <a href="cart.html" class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold text-center border border-slate-700">View Cart</a>
+        <a href="checkout.html" class="py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold text-center shadow-lg shadow-blue-500/25">Checkout →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Quick View Modal -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative w-full max-w-4xl glass-drawer rounded-3xl border border-slate-700 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto">
+      <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-slate-800/80 text-slate-300 hover:text-white flex items-center justify-center">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="quickViewContent"></div>
+    </div>
+  </div>
+
+  <script src="shopping.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const deals = SR_PRODUCTS.filter(p => {
+        const disc = ((p.originalPriceINR - p.priceINR) / p.originalPriceINR);
+        return disc >= 0.38;
+      });
+      document.getElementById("dealsGrid").innerHTML = deals.map(p => renderProductCard(p)).join("");
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

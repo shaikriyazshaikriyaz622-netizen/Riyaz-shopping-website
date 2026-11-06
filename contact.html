@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Concierge & Store Locations | Shaik Riyaz Shopping</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="shopping.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen relative overflow-x-hidden selection:bg-blue-600 selection:text-white">
+
+  <div class="bg-blob bg-blue-600/20 w-[600px] h-[600px] top-10 -right-40"></div>
+  <div id="srToastContainer" class="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-sm pointer-events-auto"></div>
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 w-full glass-nav transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-amber-500 flex items-center justify-center text-white font-black text-xl">
+          SR
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-2">
+            SHAIK RIYAZ <span class="text-blue-400 text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 font-bold">SUPPORT</span>
+          </span>
+          <span class="text-[9px] text-amber-400 uppercase tracking-widest font-semibold">24/7 Patron Concierge</span>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-300">
+        <a href="index.html" class="hover:text-blue-400 transition-colors">Home</a>
+        <a href="products.html" class="hover:text-blue-400 transition-colors">Catalog</a>
+        <a href="deals.html" class="hover:text-amber-400 transition-colors flex items-center gap-1"><i data-lucide="zap" class="w-3.5 h-3.5"></i> Deals</a>
+        <a href="about.html" class="hover:text-blue-400 transition-colors">About Riyaz</a>
+        <a href="contact.html" class="text-blue-400 font-bold">Help & Stores</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openCartDrawer()" class="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Bag</span>
+          <span class="cart-count-badge w-5 h-5 rounded-full bg-white text-blue-900 text-[11px] font-black flex items-center justify-center">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    
+    <!-- HEADER -->
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="text-xs font-extrabold text-blue-400 tracking-widest uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">We Are Here For You</span>
+      <h1 class="text-3xl sm:text-5xl font-black text-white mt-2">Shaik Riyaz Customer Care</h1>
+      <p class="text-xs sm:text-sm text-slate-400 mt-2">Have a question regarding your order, personalized engraving, or bulk corporate gifting? Connect with our dedicated team.</p>
+    </div>
+
+    <!-- CONTACT CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs">
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-2 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+          <i data-lucide="phone-call" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-sm font-extrabold text-white">Toll-Free Helpline</h4>
+        <p class="text-slate-400">1800-RIYAZ-SHOP<br>(1800-749-297)</p>
+        <span class="text-[10px] text-emerald-400 font-bold block pt-1">24/7 Available</span>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-2 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+          <i data-lucide="mail" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-sm font-extrabold text-white">Concierge Email</h4>
+        <p class="text-slate-400 truncate">care@shaikriyazshopping.com</p>
+        <span class="text-[10px] text-blue-400 font-bold block pt-1">Reply within 2 hours</span>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-2 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+          <i data-lucide="message-square" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-sm font-extrabold text-white">WhatsApp VIP Desk</h4>
+        <p class="text-slate-400">+91 98480 22334</p>
+        <span class="text-[10px] text-emerald-400 font-bold block pt-1">Instant Chat Support</span>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-2 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+          <i data-lucide="truck" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-sm font-extrabold text-white">Live Tracking Hub</h4>
+        <p class="text-slate-400">Track demo orders</p>
+        <button onclick="document.getElementById('orderTrackInput')?.focus(); openOrderTrackModal();" class="text-[11px] text-amber-400 font-bold underline block pt-1">Lookup Consignment →</button>
+      </div>
+    </div>
+
+    <!-- FORM & STORES SPLIT -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Contact Form -->
+      <div class="lg:col-span-7 glass-card p-8 rounded-3xl border border-slate-800 space-y-6">
+        <h3 class="text-lg font-black text-white">Send Us a Direct Message</h3>
+        <p class="text-xs text-slate-400">Shaik Riyaz client advisors respond to every inquiry with personal attention.</p>
+
+        <form onsubmit="event.preventDefault(); showToast('Thank you! Your message has been routed to Shaik Riyaz Concierge.'); this.reset();" class="space-y-4 text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-semibold text-slate-300 mb-1">Your Full Name *</label>
+              <input type="text" required placeholder="e.g. Rahul Sharma" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-300 mb-1">Email Address *</label>
+              <input type="email" required placeholder="name@domain.com" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-semibold text-slate-300 mb-1">Phone Number</label>
+              <input type="tel" placeholder="+91 98765 43210" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-300 mb-1">Inquiry Topic</label>
+              <select class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-blue-500">
+                <option>Order Status & Tracking</option>
+                <option>Custom Name Engraving Question</option>
+                <option>Shaik Riyaz Horology Warranty</option>
+                <option>Corporate & Bulk Gifting</option>
+                <option>Returns & Exchanges</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Your Message *</label>
+            <textarea rows="4" required placeholder="Write your question or request here..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-blue-500"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25 active:scale-95 transition-all">
+            Send Message to Shaik Riyaz Concierge
+          </button>
+        </form>
+      </div>
+
+      <!-- Store Locations -->
+      <div class="lg:col-span-5 space-y-4">
+        <h3 class="text-lg font-black text-white">Experience Centers & Flagships</h3>
+        
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <h4 class="font-bold text-white">Hyderabad Flagship Galleria</h4>
+            <span class="text-[10px] text-blue-400 font-bold uppercase">HQ Hub</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Road No. 36, Jubilee Hills, Hyderabad, Telangana - 500033</p>
+          <p class="text-[10px] text-slate-500">Hours: Mon - Sun, 10:00 AM – 9:30 PM • Tel: +91 40 2345 6789</p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <h4 class="font-bold text-white">Mumbai Luxury Boutique</h4>
+            <span class="text-[10px] text-amber-400 font-bold uppercase">Retail</span>
+          </div>
+          <p class="text-[11px] text-slate-400">High Street Phoenix Palladium, Lower Parel, Mumbai - 400013</p>
+          <p class="text-[10px] text-slate-500">Hours: Mon - Sun, 11:00 AM – 10:00 PM • Tel: +91 22 6677 8899</p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <h4 class="font-bold text-white">Bangalore Tech Experience Center</h4>
+            <span class="text-[10px] text-indigo-400 font-bold uppercase">Smart Hub</span>
+          </div>
+          <p class="text-[11px] text-slate-400">100 Feet Road, HAL 2nd Stage, Indiranagar, Bangalore - 560038</p>
+          <p class="text-[10px] text-slate-500">Hours: Mon - Sun, 10:30 AM – 9:00 PM • Tel: +91 80 4123 4567</p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between text-xs">
+            <h4 class="font-bold text-white">Dubai DIFC Private Lounge</h4>
+            <span class="text-[10px] text-purple-400 font-bold uppercase">International</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Gate Village Building 04, DIFC, Dubai, United Arab Emirates</p>
+          <p class="text-[10px] text-slate-500">By Appointment Only • Tel: +971 4 362 7000</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ ACCORDION -->
+    <div class="glass-card p-8 rounded-3xl border border-slate-800 space-y-6">
+      <div class="text-center max-w-lg mx-auto">
+        <h3 class="text-xl font-black text-white">Frequently Asked Questions</h3>
+        <p class="text-xs text-slate-400 mt-1">Clear, transparent answers to popular shopper inquiries.</p>
+      </div>
+
+      <div class="space-y-3 max-w-3xl mx-auto text-xs">
+        <details class="p-4 rounded-2xl bg-slate-900 border border-slate-800 group" open>
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+            <span>How fast does Shaik Riyaz deliver?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="text-slate-300 mt-2 leading-relaxed">
+            All orders above ₹999 receive Free Air Express dispatch. Metro cities (Hyderabad, Mumbai, Delhi-NCR, Bangalore, Chennai) receive deliveries within 24 to 48 hours. Other Indian destinations arrive in 2 to 4 business days.
+          </p>
+        </details>
+
+        <details class="p-4 rounded-2xl bg-slate-900 border border-slate-800 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+            <span>How does the custom name engraving work?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="text-slate-300 mt-2 leading-relaxed">
+            On customizable items (24K gold bar pens, full-grain leather wallets, bespoke tailored blazers), you simply enter your chosen name or initials during product selection. Our master laser artisans engrave your text with surgical precision free of charge!
+          </p>
+        </details>
+
+        <details class="p-4 rounded-2xl bg-slate-900 border border-slate-800 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+            <span>What is your return & refund policy?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="text-slate-300 mt-2 leading-relaxed">
+            We provide an unconditional 7-day return and exchange policy on all standard catalog items. If you are not 100% delighted with the craftsmanship, our courier will pick up the package and your refund will be credited instantly to your original payment method.
+          </p>
+        </details>
+
+        <details class="p-4 rounded-2xl bg-slate-900 border border-slate-800 group">
+          <summary class="font-bold text-white cursor-pointer flex items-center justify-between">
+            <span>What warranty comes with Shaik Riyaz Chronographs & Electronics?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="text-slate-300 mt-2 leading-relaxed">
+            All Shaik Riyaz Chrono automatic and quartz timepieces carry a 2-Year International Movement Warranty. Shaik Riyaz SmartTech gadgets include a 1-Year comprehensive replacement warranty covering all electronic components and batteries.
+          </p>
+        </details>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Slide-Over Shopping Cart Drawer -->
+  <div id="cartOverlay" onclick="closeCartDrawer()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md glass-drawer z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-blue-400"></i>
+        <h3 class="text-base font-extrabold text-white">Your Shopping Bag</h3>
+        <span class="cart-count-badge text-xs font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">0</span>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+    <div class="px-5 py-3 bg-slate-900/80 border-b border-slate-800">
+      <p id="freeShippingText" class="text-[11px] text-slate-300 mb-1.5">Free Express Shipping on orders over ₹999</p>
+      <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+        <div id="freeShippingProgress" class="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full transition-all duration-300" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div id="cartDrawerItems" class="flex-1 overflow-y-auto p-5 scrollbar-thin"></div>
+    <div class="p-5 border-t border-slate-800 bg-slate-900/90 space-y-3">
+      <div id="cartCouponAppliedBox"></div>
+      <div class="flex items-center gap-2">
+        <input type="text" id="drawerCouponInput" placeholder="Coupon Code" class="flex-1 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white uppercase focus:outline-none focus:border-blue-500">
+        <button onclick="applyCoupon(document.getElementById('drawerCouponInput').value)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-400 text-xs font-bold border border-slate-700">Apply</button>
+      </div>
+      <div class="space-y-1.5 text-xs text-slate-300 pt-2 border-t border-slate-800">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Subtotal:</span>
+          <span id="cartDrawerSubtotal" class="font-bold text-white">₹0</span>
+        </div>
+        <div class="flex justify-between text-sm font-black text-white pt-1">
+          <span>Estimated Total:</span>
+          <span id="cartDrawerGrandTotal" class="text-blue-400 font-black">₹0</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-2">
+        <a href="cart.html" class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold text-center border border-slate-700">View Cart</a>
+        <a href="checkout.html" class="py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold text-center shadow-lg shadow-blue-500/25">Checkout →</a>
+      </div>
+    </div>
+  </aside>
+
+  <script src="shopping.js"></script>
+</body>
+</html>
